@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tic tac</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+   
+
+<div class="board" id="board">
+  <div class="cell" data-row="0" data-col="0"></div>
+  <div class="cell" data-row="0" data-col="1"></div>
+  <div class="cell" data-row="0" data-col="2"></div>
+  <div class="cell" data-row="1" data-col="0"></div>
+  <div class="cell" data-row="1" data-col="1"></div>
+  <div class="cell" data-row="1" data-col="2"></div>
+  <div class="cell" data-row="2" data-col="0"></div>
+  <div class="cell" data-row="2" data-col="1"></div>
+  <div class="cell" data-row="2" data-col="2"></div>
+</div>
+<h2 id="results"></h2>
+    <button id="play-again">Play Again</button>
+    
+
+    <script src="script.js"></script>
+
+
+<script>
+const cells = document.querySelectorAll('.cell');
+let currentPlayer = 'X';
+let gameOver = false;
+
+function checkWinner() {
+  const winningCombos = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+    [0, 4, 8], [2, 4, 6]           // Diagonals
+  ];
+
+  for (const combo of winningCombos) {
+    const [a, b, c] = combo;
+    if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+      gameOver = true;
+      cells[a].style.backgroundColor = 'lightgreen';
+      cells[b].style.backgroundColor = 'lightgreen';
+      cells[c].style.backgroundColor = 'lightgreen';
+      return true;
+    }
+  }
+
+  return false;
+}
+function handlePlayAgain() {
+  startNewGame();
+}
+
+
+function handleClick() {
+  if (!gameOver && !this.textContent) {
+    this.textContent = currentPlayer;
+    if (checkWinner()) {
+      isGameOver(`Player ${currentPlayer} wins!`);
+    } else if ([...cells].every(cell => cell.textContent)) {
+      isGameOver("It's a draw!");
+    } else {
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+  }
+}
+
+cells.forEach(cell => cell.addEventListener('click', handleClick));
+play-againButton.addEventListener('click', play-again);
+</script>
+
+</body>
+</html>
